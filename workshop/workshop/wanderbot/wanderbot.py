@@ -6,10 +6,33 @@ def scan_callback(msg):
     global scan
     scan = msg.ranges
 
+SPEED = 0.3
+
 def timer_callback():
-    print(f'0*: {scan[0]}, 90*: {scan[90]}, 180*: {scan[180]}, 270*: {scan[270]}')
+    # print(f'0*: {scan[0]}, 90*: {scan[90]}, 180*: {scan[180]}, 270*: {scan[270]}')
+    msg = Twist()
+
+    arc = scan[:50] + scan[310:]
+    distance_ahead = min(arc)
+
+    print(distance_ahead)
+
+    if distance_ahead < 0.2:
+        msg.linear.x = -SPEED
+
+    elif distance_ahead < 0.4:
+        msg.angular.z = SPEED
+
+    else:
+        msg.linear.x = SPEED
+
+    publisher.publish(msg)
+
 
 def main(args=None):
+
+    global scan
+    scan = []
 
     rclpy.init(args=args)
 
