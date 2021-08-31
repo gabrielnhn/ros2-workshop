@@ -12,7 +12,7 @@ def main(args=None):
     node = rclpy.create_node('minimal_subscriber')
     
     
-    subscription = node.create_subscription( String, 'topic', listener_callback, 10)
+    subscription = node.create_subscription(String, 'topic', listener_callback, 10)
     subscription  # prevent unused variable warning
 
     rclpy.spin(node)
